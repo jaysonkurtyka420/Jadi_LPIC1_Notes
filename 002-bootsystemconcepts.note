@@ -1,0 +1,111 @@
+## Boot System Notes and Concepts
+
+# Boot process
+	* Motherboard firmware does POST (Power On Self Test)
+		* Firmware can be either BIOS or UEFI
+		* BIOS - Basic Input/Output System
+		* UEFI - Unified Extensible Firmware Interface
+	* Mobo loads the bootloader
+	* Bootloader loads Linux Kernel based on configs/commands
+	* Kernel loads and prepares system (root filesystem) and runs 
+	  initialization program
+	* init (or initrd or initramfs) program starts the services, other programs 
+	  (web server, graphical interface, networking, etc)
+# BIOS
+	* limited to one sector of disk and needs multistage bootloader
+	* can start bootloader from int/ext HHD, CD/DVD, USB flash drive, 
+	  network server
+	* if booting from HHD the MBR (Master Boot Record) will be used 
+	  (1 sector)
+	* limited to 2TB partition size and total of 4 primary partitions
+# UEFI
+	* Unified Extensible Firmware Interface
+	* current standard
+	* specifies a special disk partition for the bootloader called 
+	  EFI System Partition (ESP)
+	* /boot/efi folder is where the efi files to boot system are stored
+	* /sys/firmware folder will have an efi folder if system is UEFI
+		* good way to check if system is BIOS or UEFI
+	* not limited to 2TB partition size or 4 primary partitions - can 
+	  use way more
+# bootloader
+	* initializes the minimum hardware needed to boot the system and then 
+	  runs the OS
+	* current standard is GRUB2 (Grand Unified Bootloader 2)
+		* GRUB1 is older
+	* GRUB2 displays list of kernels as options to load
+	* GRUB2 can send parameters to kernel during boot using GRUB configs
+		* example: sending 1 or S will result in single user mode (recovery)
+		  or send vga=792 to work on that low resolution
+# dmesg or system
+	* Linux will show boot log during start up but usually hides it behind 
+	  a splash screen
+		* press ESC or Ctrl+Alt+F1 to view logs
+	* dmesg command will show kernel ring buffer data
+		* /var/log/dmesg is where data is found
+	* can also check /var/log/boot (Debian-based) or /var/log/boot.log (RedHat-based)
+# journalctl
+	* journalctl -k to check kernel logs
+	* journalctl -b to view boot logs
+	* journalctl -u kernel to view all previous logs
+# /var/log/messages
+	* when init process starts the syslog daemon will log messages
+	* kernel still logging messages in dmesg
+	* may be called /var/log/syslog on some systems
+	* many other logs at /var/log
+# init
+	* initiated by kernel to start other daemons, services, subtsystems, 
+	  and programs
+	* sys admin can start/stop services later as well
+	* different type of init systems:
+		* SysVinit - Sys(5)init
+			* based on Unix V(5)
+			* services started 1 at a time (in series)
+			* old and hardly used
+		* systemd
+			* current standard
+			* can start services in parallel
+		* upstart
+			* no longer used but was once going to replace init
+	* always has process id of 1
+	* confirm by using:
+		* $ ps -p 1
+			* this will show process 1
+		* $ pstree | head
+			* this will show the process tree starting with process 
+			  1
+	* init is hardlink to systemd (or similar)
+		* $ readlink -f <pathtoinit>
+			* <pathtoinit> can be found using $ which init command
+# systemd
+	* made around units
+		* a unit is a service, or group of services, or an action
+		* units have a name, type, and config file
+		* 12 unit types:
+			* automount, device, mount, path, scope, service, slice, 
+			  snapshot, swap, target, timer
+	* use systemctl to work (enable/disable/start/stop/restart/etc) with units
+		* $ sudo systemctl list-units
+			* will show all units
+		* $ sudo systemctl list-units --type=<unittype>
+			* will show only defined <unittype>
+		* $ sudo systemctl enable <unittype>
+			* will enable <unittype>
+		* $ sudo systemctl list-unit-files
+			* will list all unit files and status of each
+	* use journalctl to view unit logs
+		* $ journalctl
+			* will show log information from boot
+		* $ journalctl -xe
+			* will show most current point in logs
+	* units can be found in these places (sorted by priority):
+		* /etc/systemd/system/
+		* /run/systemd/system/
+		* /usr/lib/systemd/system
+# SysV(5)
+	* control files are located at /etc/init.d/
+	* $ /etc/init.d/<unit> status
+		* will show status of <unit>
+	* $ /etc/inti.d/<unit> start
+		* will start <unit>
+	* SysV is older and only used on few distros

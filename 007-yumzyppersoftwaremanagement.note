@@ -1,0 +1,84 @@
+## rpm, yum & zypper software management
+# yum = yellowdog update manager
+# rmp = redhat package manager
+# zypper = 
+	* all used by Fedora, RedHat, RHEL, CentOS, Rocky Linux, 
+	  Alma Linux, openSUSE, SUSE, etc to manage software packages
+# rmp
+	* RedHat Package Manager
+	* rpm tools available
+	* yum command is most common tool for rmp
+	* runs actions on individual RPM files
+	* $ rpm ACTION [OPTION] <rpmfile.rpm>
+		* -v is common option to display more information
+	* uses '-x' for ACTIONS to tell rpm to install, remove, etc
+		* rpm -i <somerpmfile.rpm>
+			* this command will install somerpmfile.rpm
+		* rpm -U <somerpmfile.rpm>
+			* this command will install or update somerpmfile.rpm
+	* other ACTIONS:
+		* -e (--erase) - erase package
+		* -q (--query) - check if package is installed
+		* -F (--freshen) - only update if already installed
+		* -V (--verify) - verify integrity of install
+		* -K (--checksig) - checks integrity of rpm package
+	* -q option can take the following as additional options:
+		* -c - show config files (blank if there are no config files)
+		* -i - detailed info about package
+		* -a - shows all installed packages
+		* -l - shows list of files that a package installs
+		* -R - shows dependencies of a package
+		* -f - shows package owning file
+	* most install/update cases will use -Uvh option
+		* -U will install or update package
+		* -v will show more information
+		* -h will show progress meters made of #s
+	* $ rpm -Uvh *.rpm
+		* if you have all dependencies this command will install them
+			* be sure all needed dependencies are in same folder
+		* --nodeps option will prevent dependency check
+		* --force option will install or upgrade if there is issues/complaints
+	* -e option removes rpm package
+		* note that rpm will NOT remove package(s) that is/are a dependent of another package
+	* rpm2cpio
+		* this command will archive rmp using cpio archive tool
+		* use cpio tool for extraction
+		* $ rpm2cpio somerpmfile.rpm > archiverpm.cpio
+			* command will archive rpm using cpio
+		* $ cpio -idvm < archiverpm.cpio
+			* -i - restores archive
+			* -d - creates parent directories where needed
+			* -m - retain previous files mod times
+			* -v - display progress
+# yum
+	* Yellowdog Update Manager
+	** yum is symbolic link to dnf - yum & dnf are the same
+	* used by RedHat-based systems
+	* config files are located:
+		* /etc/yum.conf
+		* /etc/yum.repos.d/
+	* $ yum [OPTION] [COMMAND] [PACKAGENAME]
+		* -y option will answer yes to all questions
+		* commands:
+			* update, install, reinstall, list, info, 
+			  remove, search, provides, upgrade, localinstall, 
+			  localupdate, check-update, deplist, groupinstall, 
+			  history
+		* can use wildcards as well
+			* $ yum update 'cal*'
+# yumdownloader
+	* tool will download rpms from repositories WITHOUT installing them
+	* --resolve  option will download all needed dependencies
+		* $ yumdownloader --resolve emacs
+			* this example will download emacs repo and dependencies but 
+			  will not install them - will need to us localinstall command to install them
+# zypper
+	* SUSE linux and siblings use ZYpp as their package manager engine
+	* use YAST or Zypper tools for communication
+	* main zypper commands
+		* help, install, info, list-updates, lr, packages, 
+		  what-provides, refresh, remove, search, update, verify
+# other tools
+	* YaST is used by SUSE
+	* PackageKit is used by KDE & Gnome
+	* dnf (dandified yum) is another

@@ -1,0 +1,82 @@
+## Linux and virtualization and containers
+# virtual machines
+	* simulated OS on host machine
+	* Oracle VirtualBox is popular VM
+	* host OS is main OS that vm is running in
+	* guest OS is the vm running on host OS
+# hypervisor
+	* also called Virtual Machine Managers (VMMs)
+	* supervises the guest OS vm
+		* vmx (for Intel CPUs)
+		* svm (for AMD CPUs)
+		* one of the above should be seen in the /proc/cpuinfo 
+		  output in the flags section
+			* if you see hypervisor that means you are 
+			  in a virtual machine
+		* if none of these are found please check that virtualization 
+		  is on in the BIOS/UEFI settings
+	* kvm (Intel) or kvm-amd (AMD)
+		* kvm or kvm-amd module should be loaded
+			* $ lsmod | grep -i kvm (OR kvm-amd)
+				* this command will confirm if module 
+				  is loaded
+			* $ lscpu
+				* look for vm info here as well for reference
+	* two types of hypervisors
+		* Type 1 (native or bare metal)
+			* there is not host OS
+			* hypervisor runs directly off hardware to 
+			  control hardware and manage guest OSs
+			* older examples
+				* SIMMON, CP/CMS OS, IBM z/VM
+			* current examples
+				* KVM, Xen, Hyper-V
+				* KVM is built into linux since kernel 2.6.20
+		* Type 2 (hosted)
+			* hypervisor runs in host OS
+			* guest OS runs as process on host OS
+			* abstract guest OSs from host OS
+			* can have multiple hypervisors (VirtualBox or VMware, etc)
+# creating virutal machine
+	* guest OS can be installed from
+		* cd/dvd
+		* cloning an existing machine
+		* using Open Virtualization Format (OVF)
+			* moves machines between hypervisors
+			* standard format for vm definition and may 
+			  include several files - archive into 
+			  Open Virtualization Archive (OVA) file
+		* can create Templates that are maste copies to initiate 
+		  new machines
+		* may need to install some guest drivers or addtions to help hypervisor run better
+# guest-specific configs
+	* some configs are machine specific
+		* network card's MAC address needs to be unique
+	* if cloning or using templates be sure to update the following:
+		* host name
+		* nic mac address
+		* nic ip (if not using DHCP)
+		* machine id
+			* delete /etc/machine-id and /var/lib/dbus/machine-id 
+			  and run $ dbus-uuidgen --ensure
+		* encryption keys like ssh fingerprints and PGP keys
+		* hdd uuids
+		* any other uuids on the system
+# containers
+	* isolated user space instances that allow os-level virtualization
+	* os level virutalization is when only parts of os are virtualized
+	* this can be done to run application or service or new parts of os 
+	  for test purposes
+	* does not use guest os
+	* container engine manages everything
+	* container contains bin/libs and apps
+	* container isolates itself from host os
+# IaaS
+	* infrastructure as a service
+	* means offloading parts of infrastructure to other companies
+	* others provide electricty, cooling, etc and you run your apps on their system
+	* can buy more hdd space if needed
+	* called the cloud!
+	* Amazon Web Services, Google Cloud Platform, Microsoft Azure are examples
+	* cloud-init program helps initialize cloud
+		* may use templates from IaaS provider

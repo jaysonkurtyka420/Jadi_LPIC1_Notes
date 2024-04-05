@@ -1,0 +1,102 @@
+## Manage Shared Libraries
+
+# Linking
+	* apps utilize libraries by linking to the appropriate 
+	  libraries that has code to do needed work
+		* when you need to be able to read text from 
+		  standard input you need to link a library that 
+		  allows this
+	* linking has 2 forms
+		* static
+			* add library(ies) to your executable program
+			* makes programs large in size due to library(ies)
+			* advantage is your program can be run w/o 
+			  being dependent on other programs/libraies
+
+		* dynamic
+			* contains only calls to specific library(ies) 
+			  needed to run program
+			* programs are smaller in size and more secure
+			* libraries installed separately
+			* 
+# linux dynamic libraries
+		* names like libLIBNAME.so.VERSION
+			* example name: libcpu.so.0
+		* usually located in /lib/ /usr/lib/
+		* called DLLs (dynamic link libraries) in Windows
+		* also called shared libraries because all the programs 
+		  are using same library which is installed separately
+		* /lib is 32-bit library
+		* /lib64 is 64-bit library
+		* libraries installed by software are located:
+			* /usr/lib
+			* /usr/lib64
+# ldd
+	* $ ldd <pathtobinary>
+	* command helps determin whether program is static or dynamic
+		* static will show 'not a dynamic executable' or similar when ldd command used
+		* dynamic will show the needed libraries
+# symbolic links for libraries
+	* actual libraries may be named differently depending on the distro
+	* symbolic links are used to point new name to same existing library name
+		* your program may ask for libudev.so.1 but the linux distro 
+		  may have named it libdev.so.1.4.0; the former will point to latter 
+		  using symbolic links
+	* $ ls -l <pathtoprogram>
+		* this command will confirm which name is link by having 'l' in first 
+		  postion of permissions
+# dynamic library configs and cache
+	* dynamic linking is configured by text config file
+	* location to config file (depends on distro)
+		* /etc/ld.so.conf
+	* another file ld.so.conf.d data can be included in 
+	  ld.so.conf data with 'include' statement in the .d file
+	* ldconfig
+		* command that processes all files to make loading 
+		  of libraries faster
+		* output of command creates ld.so.cache
+		* -v option to see progress/data
+	* ld.so.cache
+		* file that is created by using ldconfig
+		* is a list that is used to locate files that need 
+		  to be dynamically loaded and linked
+		* $ ld.so.cache -p
+			* this command will show libraries in cache
+* IF ld.so.conf is updated than the ldconfig command 
+  needs to be issued!
+	* OSs find dynamic libraries by searching the following in order:
+		* LD_LIBRARY_PATH env variable (a note that there are no 
+		  default values stored in LD_LIBRARY_PATH)
+			* this can be used to override pointed out below
+		* Programs PATH
+		* /etc/ld.so.conf (which may include files from
+		  /etc/ld.so.conf.d/
+		* /lib, /lib64, /usr/lib, /usr/lib64
+	* to override default system libraries
+		* point env variable LD_LIBRARY_PATH to library you 
+		  need to use and run program
+		* $ export LD_LIBRARY_PATH=<pathtolibs>:<differentpathtolibs>
+			* system will search <pathtolibs> and 
+			  <differentpathtolibs> before checking
+			  main system libraries defined in 
+			  /etc/ld.so.cache
+			* reminder that this export will only be good during session unless it is 
+			  added to config file
+			* good place to add is in the .profile file in /home/<user>
+# Manually loading dynamically
+	* program called dynamic linker that loads dynamic libraries
+	* called ld or ld-linux
+	* can be found
+		* $ locate ld-linux
+			* double check with ls -l if it is a file or symbolic link
+	* example
+		* $ /usr/lib64/ld-linux-x86-64.so.2 /usr/bin/ls
+			* the above command will run the /usr/bin/ls 
+			  command the same as if we just typed ls on command line
+# ELF executables
+	* most binaries/programs are ELF executables which are setup
+	  so that they already have path to dynamic linker so that 
+	  is why we do not need ld or ld-linux to run ls or cat, etc, from command line
+	* example
+		* $readelf -Wl /usr/bin/ls
+			* output shows INTERP line pointing to dynamic linker

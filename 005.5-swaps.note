@@ -1,0 +1,20 @@
+## Different types of swap
+Distros can use any combo of:
+1. swap partition
+2. swap file
+3. zram
+# free
+	* this command will show the total/used/free memory and swap
+	* $ free -h
+		* this command will show same but human readable
+# swapon
+	* $ swapon
+		* this command shows where swap partition is located
+# zram
+	* virtual disk on RAM which can be used as swap space or mounted 
+	  anywhere, example is /tmp
+	* /dev/zram0 is common name
+	* $ zramctl
+		* shows zram config
+		* $ zramctl --help
+			* for more info

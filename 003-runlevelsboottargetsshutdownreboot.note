@@ -1,0 +1,115 @@
+## Run Levels, Boot Targets, Shutdown/Reboot System
+# run levels
+	* run levels are from sysvinit verbiage days
+	* define what task(s) can be accomplished in the current state (run level)
+# boot targets
+	* targets are groups of services
+	* target files are essentially config files for services
+	* $ sudo systemctl cat multi-user.target
+		* this command will open the multi-user.target config file 
+		  to show which target files are required/conflicting/after 
+		  in order to run multi-user.target file
+	* the default target is the target that system will end up at when booting
+		* most of the time it is the graphical.target
+	* default target can be found by following command:
+		* $ sudo systemctl get-default
+	* can check target status same as checking service status
+		* $ sudo systemctl status <target>
+	* any target can be isolated or move to two special targets
+		* rescue - local file systems mounted, no networking, only 
+		  root user (maintanenece mode)
+		* emergency - only root file system and in read-only mode, no 
+		  networking and only root (maintanence mode)
+		* reboot
+		* halt - stops all processes and halts cpu activities
+		* poweroff - like halt but sends ACPI shutdown signal (no lights)
+	* command to isolate target
+		* $ sudo systemctl isolate <target>
+			* isolate property can be find in target files
+				* $ sudo systemctl cat <x.target>
+# sysv run levels
+	* Red Hat-based systems:
+		* 0 - shutdown
+		* 1 - Single user mode (recovery) - aka S or s
+		* 2 - Multi user mode w/o networking
+		* 3 - Multi user mode with networking
+		* 4 - To be customized by admin
+		* 5 - Multi user mode with networking and graphics
+		* 6 - Reboot
+	* Debian-based systems:
+		* 0 - Shutdown
+		* 1 - Single user mode
+		* 2 - Multi user mode
+		* 6 - Reboot
+			* 3, 4, and 5 run levels were defined by admin
+	* $ runlevel
+		* this command will display previous and current run level
+	* $ telinit <runlevel>
+		* this command will also change run levels based on run level 
+		  provided on command line
+	* /etc and check rc_.d files for targets that should be running in 
+	  each run level
+	* /etc/inittab
+		* on sysv systems this file would list the default target
+		* being replaced by upstart and systemd
+		* id:runlevel:action:process
+			* id - 2 or 3 chars
+			* runlevel - runlevel being referred to; empty is all
+			* action - respawn, wait, once, initdefault
+		* all scripts can be seen with command:
+			* $ ls -ltrh /etc/init.d
+		* start/stop run levels
+			* $ ls /etc/rc2.d
+
+# stopping system
+	* preferred method is to use shutdown command with appropriate options
+		* $ sudo shutdown -r now
+			* this command will restart kernel right now
+		* 
+	* shutdown command does the following:
+		* sends warning message to all logged in users and blocks 
+		  further logins
+		* signals init to switch run levels
+		* init process then sends all running processes a SIGTERM signal
+			* to allow to save data and terminate properly
+		* after 1 minute delay init sends SIGKILL signal to force end each 
+		  remaining process
+			* $ shutdown -r 60 Reloading updated kernal
+				* -r restart
+				* 60 second pause between SIGTERM and SIGKILL
+				* Reloading updated kernel is the message posted 
+				  on wall
+	* shutdown options
+		* -h will halt system
+		* -r will reboot system
+		* time is hh:mm or n (minutes) or now
+		* anything added will be broadcasted to logged-in users using the 
+		  wall command
+		* -c will cancel shutdown command
+	* halt command halts the system
+	* poweroff command halts system and then attempts to power it off
+	* reboot command halts system and the reboots it
+# ACPI - Advanced Configuration and Power Interface
+	* provides an open standard that OSs can use to discover and configure 
+	  computer hardware components, perform power management (putting used 
+	  hardware components to sleep), perform auto-configuration (plug & play, 
+	  hot-swapping), and perform status monitoring
+	* subsystem lets OS commands (such as shutdown) send signals to the computer 
+	  which results in powering down of whole system
+# notifying users
+	* wall - sends wall messages to logged-in users
+	* /etc/issue - text to be displayed on the TTY terminal logins (before login)
+	* /etc/issue.net - text to be displayed on the remote terminal logins (before login)
+	* /etc/motd - message of the day (after login) into system via terminal
+	* mesg - command controls if you want to get all messages or not
+		* $ mesg n
+			* command will show mesg status
+		* $ who -T
+			* command will show mesg status
+		* shutdown command does not respect mesg status
+	* systemctl sends wall messages for
+		* emergency
+		* halt
+		* power-off
+		* reboot
+		* rescue

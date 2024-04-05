@@ -1,0 +1,70 @@
+## Design hard disk layout
+	* Windows uses drive LETTERs to represent drives/partitions 
+	  whereas Linxu/GNU Linux uses root file system
+	* root is at /
+# Filesystem Hierarchy Standard (FSH)
+	* all folders/files are filed under root / in different folders
+	* system folders are create to house different data/files for system 
+	* /bin - essential command binaries
+		* mostly command line binaries here
+	* /boot - static files for the boot loader
+		* GRUB is here
+		* kernel binaries are here
+		* initramfs files are here
+	* /dev - device files, blocks (use lsblk)
+		* ttyxx are here
+		* all hard disks here
+		* device information here
+	* /etc - host-specific system configurations
+		* rc0.d - rc6.d are here
+		* conf files for servies/units are here
+	* /home - home directory for each user
+	* /lib - essential shared libraries and kernel modules
+	* /media - mount point for removable media
+	* /mnt - mount point for mounting filesystem temporarily
+	* /opt - add-on application software packages
+	* /root - home directory of root user
+	* /sbin - essential system binaries
+	* /srv - data for services provided by this system
+	* /tmp - temporary files, sometimes purged on each boot
+	* /usr - secondary hierarchy
+		* /bin may be just a link to /usr/bin
+		* /sbin may be just a link to /usr/sbin
+	* /var - variable data, logs, etc
+# Partitions
+	* devices are defined at /dev/
+	* SATA or SCSI disks will have /dev/sda
+	* PATA disks will have /dev/hdc
+	* partitions used as a security device using encryption
+	* boot partition cannot be encrypted but other partitions can
+	* OS sees partitions as standalone disks
+	* BIOS used Master Boot Record (MBR) partition on drive to boot and 
+	  could only have 4 primary partitions
+	* UEFI uses GUID Partition Table (GPT) and supports 128 partitions 
+	  on each device
+# fdisk
+	* used to work with partitions on block device
+	* parted and Gparted are other apps used for working with partitions
+	* $ sudo fdisk --list
+		* this command will list out all block devices with info
+	* $ sudo fdisk /dev/sda
+		* this command will start fdisk for the block device sda
+# LVM
+	* logical volume manager
+	* allows to create partition using multiple block devices
+		* when you need 3TB partition but only have (2) 2TB block devices
+	* main concepts
+		* physical volume - whole drive or partition
+			* it is better to define partitions and not use 
+			  whole, unpartitioned disks
+		* volume groups - collection of one or more physical volumes
+			* seen as one big disk by OS
+		* logical volumes - partitions created in a volume group
+# swap
+	* partition used for extended memory
+	* kernel will page memory to this partition / file
+	* swap partitions are formated with swap file system
+	* defined in /etc/fstab
+	* various thoughts regarding swap partition size
+		* safe is RAM + 2 = 16GB RAM + 2GB = 18GB
+	* swap partitions need to be ENABLED

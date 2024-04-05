@@ -1,0 +1,87 @@
+# BIOS - Basic Input/Output System
+	* Boots from first sector of hard disk via MBR (Master Boot Record)
+		* MBR is 1st step in bootloader
+		* OS is 2nd step in process
+# UEFI - Unified Extensible Firmware Interface
+	* Started in 1998 by Intel as EFI
+	* Current standard and for most part has replaced MBR
+	* Uses specific disk partition for boot (EFI System Partition (ESP))
+	* Uses FAT file system
+# Peripheral Devices
+# PCI
+	* Peripheral Component Interconnect
+	* Allows new hardward boards/components to be added to motherboard
+		* Graphics card, SSDs, HDD, PATA, SATA, SCSI, netword card, wireless card, etc
+	* PCI Express (PCIe) is current standard
+		* Others included: 32-bit PCI, PCI-X
+# USB
+	* Universal Serial Bus
+	* Type A, Type B, Type B USB 3.0, Type C
+	* Type Mini-A, Type Mini-B
+	* Type Micro-A, Type Micro-B, Type Micro-B USB 3.0
+	* USB 1 - 12Mbps
+	* USB 2 - 420Mbps
+	* USB 3 - 20Gbps
+# GPIO
+	* General Purpose Input Output
+	* Pins on the Raspberry PI
+	* Pins with either voltage or ground
+	* Used to control other devices
+# sysfs
+	* Pseudo file system provided by Linux kernal that exports information about 
+	  various kernal subsystems, hardware devices, and associated drivers from the 
+	  kernal's device model to user space through virtual files
+		* Virtual files also are used for their configs
+	* Files are in memory
+	* Found in /sys
+	* System information can be found in those folders
+# udev
+	* Device manager for Linux kernal
+	* Successor of devfsd and hotplug
+	* Primarily manages device nodes in /dev folder
+	* Also handles all user space events raised when hardware devices are added into 
+	  the system or removed from system, including firmware loading as required by 
+	  certain devices
+	* When new device (USB,etc) is plugged in, udev creates new file in /dev
+	* Lets you control what will be in /dev
+		* Set specific USB drive to mount to specific folder when plugged in
+# dbus
+	* message bus system - interprocess communication
+	* helps coordinate process lifecycle
+		* makes it simple to code a "single instance" application or daemon, and 
+		  launch apps and daemons on demand when their services are needed
+# proc directory
+	* where kernal keeps its settings and properties
+	* directory is created on RAM and files may have write access for some hardware 
+	  configurations
+	* IRQ (interrupt requests)
+	* I/O ports - locations where CPU can talk with devices
+	* DMA - direct memory access - faster than I/O ports
+	* processes
+	* network settings
+	* numbered folders represent system processes and can be used to get process 
+	  information
+# lsusb
+	* shows usb devices - shows connected as well
+# lspci
+	* shows pci connection/connected devices
+# lsblk
+	* shows all the block devices - disk(s), memory, ROM
+	* shows devices that can read/write
+# lshw
+	* shows info regarding hardware
+	* best to run as 'sudo' - $ sudo lshw
+# Loadable Kernal Modules
+	* prevents kernal from loading all the hardware drivers at once
+	* .ko files
+	* .ko files are loaded individually when needed
+# lsmod
+	* lists all the modules on the system
+# rmmod
+	* remove module by name found on lsmod
+	* replaced by: $ sudo modprobe -r <moduleid>
+# insmod
+	* starts module
+	* replaced by: $ sudo modprobe <modulename>
+# modprobe
+	* starts/removes modules

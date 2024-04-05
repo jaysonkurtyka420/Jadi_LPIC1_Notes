@@ -1,0 +1,100 @@
+## Debian Software Management
+	* Debian software has extension of .deb
+		* example: tmux_3.2a-4build1_amd64.deb
+# Concept of package management
+	* most software does not need compiling
+	* GNU/Linux is precursor to Apple App Store
+	* repositories (repo(s))
+		* huge archives of pre-compiled software
+	* all major distros have repos
+	* package manager software does the searching, installing 
+	  software from them, find dependencies and installing them, 
+	  resolving conflicts, updating system and software
+# repositories
+	* contains software packages
+	* repos can be on a disk, a network drive, collection of DVDs, 
+	  or a network address (url or similar) on internet
+	* Debian systems have configs at:
+		* /etc/apt/sources
+		* /etc/apt/sources.list
+		* /etc/apt/sources.list.d/*
+	* instead of updating sources.list, create new .list file in /etc/apt/sources.list.d folder 
+	  with pertinent info and run apt update so that new .list 
+	  file data will show in the cache file
+	* $ apt update
+		* this command will update all the repo sources listed 
+		  in the above locations
+		* actually updates local cache with repo software info
+			* cache is /var/cache/apt/pkgcache.bin (or similar)
+		* does NOT upgrade the software, only updates repo source info
+		* apt-get command is the same
+	* any software not installed will bring up message on terminal 
+	  when attempted to run stating it is not installed
+		* $ which tmux
+		* $ type tmux
+			* these commands will also confirm if tmux 
+			  is installed or not - if no info then it is 
+			  not installed
+	* $ apt install tmux
+		* asks for confirmation to install
+		* resolves dependencies
+		* -s option will only simulate install
+			* $ apt install -s tmux
+	* $ apt install --download-only tmux
+		* this command will only downloaded needed files 
+		  into cache /var/cache/apt/archive/
+	* $ apt download tmux
+		* this command will only download one specific package
+	* $ apt remove tmux
+		* removes tmux files only (does not remove dependencies)
+	* $ apt autoremove tmux
+		* removes installed dependencies for tmux
+		* $ apt autoremove
+			* this command will remove all dependencies that 
+			  are not needed
+	* if removing a dependency you will get a warning that 
+	  it will be removed alongside package
+	* $ apt-cache search "xxxx"
+		* will search software list CACHE (/var/cache/apt/pkgcache.bin (or similar))
+		* $ apt search xxxxx
+			* will also search for software CACHE 
+			  (/var/cache/apt/pkgcache.bin (or similar))
+		* options:
+			* depends - shows dependencies
+			* pkgnames - shows all installed packages
+			* search - search for packages
+			* showpkg - show info about package
+			* stats - show statistics
+			* unmet - show unmet dependencies for all or 
+			  single package
+	* $ apt dist-upgrade
+		* command performs upgrade on system
+		* $ apt dist-upgrade vlc
+			* command only updates vlc software
+# dpkg
+	* tool to work with .deb files
+	* dpkg [OPTIONS] ACTION <package>
+	* ACTIONS:
+		* -c - shows contents of package
+		* -C - search for broken installed packages
+		* --configure - reconfig installed package
+		* -i - install/upgrade package - WILL NOT 
+		  resolve/install dependencies
+		* -I - show package info
+		* -l - list all installed packages
+		* -L - list all files related to this package
+		* -P - remove the package and config files
+		* -r - remove the package but keep config files
+		* -s - display status of a package
+		* -S - used with file to confirm which package file is from
+	* debconf
+		* config files for debian packages
+	* dpkg-reconfigure <software>
+		* will run reconfigure process for <software>
+		* $ dpkg-reconfigure tzdata
+			* example command to reconfig tzdata
+	* after using dpkg to install .deb package run the following command:
+		* $ apt install -f
+			* this will look to be sure that all dependencies 
+			  that are needed are installed
+			* -f - fix broken
