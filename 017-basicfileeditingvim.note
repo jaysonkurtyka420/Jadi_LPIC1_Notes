@@ -1,0 +1,17 @@
+## Basic file editing
+# vim
+	* i will put into input mode
+	* default is command mode
+	* insert mode
+		* acts like other text editors
+	* command mode
+		* cut paste, etc
+		* not like a text editor
+	* $ :q!
+		* exit without saving
+	* $ :wq
+		* save and exit
+	* $ :w <pathwheretosave>
+		* saves file in <path...>
+	* $ ZZ
+		* exit and save if modified
