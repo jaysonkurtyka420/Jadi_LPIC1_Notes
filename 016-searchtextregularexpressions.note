@@ -1,0 +1,43 @@
+## Searching text files with regular expressions
+# /usr/share/dict
+	* this folder has list of words that are searched
+# regex
+	* patterns to describe what you want to match when 
+	  performing a search
+	* very useful to know so checkout other resources
+# grep
+	* global regex
+	* $ grep <regex> <file(s)>
+		* will find <regex> matches in <file(s)>
+	* $ ls -l | grep <regex>
+		* will find any results from ls command with 
+		  <regex> in the line
+	* $ grep funk /usr/share/dict/words
+		* will list lines from words file that have funk 
+		  in them
+	* $ grep -c funk /usr/share/dict/words
+		* will give numerical count of lines for words file 
+		  that contain funk
+	* $ grep j..a /usr/share/dict/words
+		* will list lines from words file that have the 
+		  regex j..a matche(s)
+# egrep
+	* extended grep
+	* $ grep -E <regex> or $ egrep <regex>
+	* can use  | as or
+		* $ egrep "a|b"
+# fgrep
+	* fixed grep
+	* $ grep -F or $ fgrep
+	* if you need to search for exact strings and not 
+	  interpret as regex
+# sed
+	* stream editor
+	* very powerful
+	* common use to find/replace (substitute)
+	* $ sed "s/a/b/" <file>
+		* will substitute all a's with b's in <file>
+	* $ sed -r "s/(Z|R|J)/starts with ZRJ/" <file>
+		* will replace Z or R or J with starts with ZRJ 
+		  in <file>
+		* -r option is for advanced regex use
