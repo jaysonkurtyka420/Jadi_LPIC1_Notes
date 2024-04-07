@@ -24,3 +24,6 @@
 		* will create swap space on <swappartition>
 	* $ sudo blkid /dev/<partition>
 		* will list info about <partition>
+	* UUID is unique to each file system
+		* use this UUID in place of /dev/<partition> in 
+		  scripts, etc ...
