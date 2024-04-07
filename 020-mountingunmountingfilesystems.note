@@ -1,0 +1,35 @@
+## Control mounting and unmounting of filesystems
+	* in order to use formatted partitions the partitions need 
+	  to be mounted to location
+	* partitions are mounted to directory locations
+	* /mnt/... and /media/... are common mount directories
+# mount & umount
+	* $ mount -t ext4 /dev/sda1 /mnt/<pathtomountdirectory>
+		* this command will mount /dev/sda1 to /mnt/... so 
+		  we can utilize sda1 partition
+	* $ mount /dev/sda3 /media/<pathtomountdirectory>
+		* will mount /dev/sda3 to /media/...
+	* $ umount /dev/sda1
+		* will unmount /dev/sda1
+		* $ umount /mnt/<pathtomountedpartition>
+			* will also unmount /dev/sda1
+	*** swap disks do not need mounting
+		* use swapon and swapoff commands
+# UUIDs & Labels
+	* UUID -  unique universal identifier
+		* given to blocks/partitions/etc
+		* better to use block/partition UUID in place of 
+		  /dev/sxxx because sxxx can change but UUID is unique
+	* $ lsblk -o +UUID
+		* command will show UUID for each block device
+	* $ mount UUID=xxxxxx /mnt/...
+		* uses UUID of block instead of /dev/sxxx to mount
+# fstab
+	* /etc/fstab
+	* lists mounting direction for system when loading
+	* user can add to this file to automount any blocks during 
+	  system loading/boot up
+# systemd mount units
+	* when using systemd, a unit config file whose name ends in 
+	  ".mount" encodes info about a file system point controlled 
+	  and supervised by systemd
