@@ -1,0 +1,75 @@
+## Maintain the integrity of filesystems
+# du & df
+	* du (device usage) shows used space of directories and files
+	* df (disk free) shows free/used space on disk/filesystem(s)
+	* inode (index node) is a data structure in a unix-style 
+	  file system that describes the file system object as 
+	  a file or directory
+# df
+	* $ df -h
+		* command will show human readable used/available 
+		  device/disk space for current or specified directory
+	* $ df -ih
+		* command will show human readable used/available 
+		  inodes for current or specified directory
+# du
+	* $ du -h
+		* command will show human readable used disk space 
+		  for current or specified 
+	* $ du /tmp -hs
+		* command will show human readable used disks space 
+		  for /tmp, -s means show summary
+	* $ du -h --max-dept 1  /<pathtofileordirectory>
+		* only shows files/directories up to number given 
+		  in --max-dept
+# fsck
+	* command used to check/fix/list errors for filesystem
+	*** BE SURE TO UNMOUNT <partition> BEFORE DOING fsck!!!!
+	* $ fsck /dev/<partition>
+		* command will check <partition> filesystem for 
+		  errors
+	*** FOR xfs FILESYSTEMS USE xfs_repair COMMAND INSTEAD 
+	    OF fsck COMMAND!!!!
+# fstab
+	* file that lists mount points for partitions
+	* this file can be updated to add more mount points to be 
+	  mounted when the system is loading during boot up process
+# e2fsck
+	* command to run to check ext2/3/4 filesystem
+	* fsck.ext2, fsck.ext3, fsck.ext4 commands are links to 
+	  e2fsck command
+# mke2fs
+	* used to create ext2/3/4 filesystems, usually in partition
+	* device is special file corresponding with device
+	  (dev/hdXX)
+	* block count is number of blocks on device
+		* if not included mke2fs auto figures out fs size
+	* defaults for parameters for new filesystems, if not 
+	  overriden by options, will use config file /etc/mke2fs.conf 
+	  for config purposes
+# tune2fs
+	* command to tune ext file systems
+	* -l option shows information
+# debugfs
+	* interactive tool to debug ext file system
+	* opens filesystem in read-only mode (unless -w option used)
+	* can un-delete files and directories
+# superblock
+	* special blocks where file meta data, etc, are saved
+	* most of the time these blocks are towards beginning of 
+	  file system and replicated in other locations in file system
+	* -n of mke2fs command will show block id(s) of superblocks
+# xfs tools
+	* some distros do not have xfs by default
+		* if so, install xfsprogs package
+	* command is same as tune2fs except will only work on 
+	  xfs file systems
+	* xfs_info command should be used on mounted file systems
+	* xfs_check command should be used to repair xfs file systems
+# repairing
+	* if boot time check finds problems the system will go to 
+	  command line in order to fix issues
+	* non-journaling file systems (ext2) will list many questions 
+	  that require a 'y' from user to fix
+	* journaling file systems (ext3/4) have less 'y' questions
+	* -n option for fsck will only list errors and will not fix them
