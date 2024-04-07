@@ -11,3 +11,16 @@
 		* uses gdisk
 	* udev is what kernel uses to add block devices and 
 	  their partitions to /dev in the /dev/sda1, etc...
+# Formatting partitions
+# Filesystems
+	* ext2, ext3, ext4, vfat, exfat, XFS, swap, btrfs
+	* newly created partitions need to be formatted to a 
+	  filesystem of choice in order to make the partition 
+	  usable
+	* mkfs is command to add filesystems to partitions
+	* $ mkfs -t ext4 /dev/<partition> (sdc1, sdc2, ...)
+		* will create ext4 filesystem on <partition>
+	* $ mkswap /dev/<swappartition>
+		* will create swap space on <swappartition>
+	* $ sudo blkid /dev/<partition>
+		* will list info about <partition>
