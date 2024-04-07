@@ -1,0 +1,13 @@
+## Create partitions and filesystems
+	* BIOS
+		* uses MBR (Master Boot Record)
+		* can have only 4 primary partitions
+			* extended partitions can have logical 
+			  volumes
+		* uses fdisk
+	* UEFI
+		* uses GPT (GUID Partition Table)
+		* can have many partitions
+		* uses gdisk
+	* udev is what kernel uses to add block devices and 
+	  their partitions to /dev in the /dev/sda1, etc...
