@@ -66,6 +66,8 @@
 	  xfs file systems
 	* xfs_info command should be used on mounted file systems
 	* xfs_check command should be used to repair xfs file systems
+	* xfs file systems are used when large files are going to be stored on partition
+	* xfs can handle parallel I/O queries while ext4 cannot
 # repairing
 	* if boot time check finds problems the system will go to 
 	  command line in order to fix issues
