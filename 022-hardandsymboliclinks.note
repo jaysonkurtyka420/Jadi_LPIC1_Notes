@@ -1,0 +1,31 @@
+## Create and change hard and symbolic links
+# links
+	* an additional directory entry for a file or directory that 
+	  is essentially another instance of the target file/directory
+	* allows two or more names for the same file
+	* hard link
+		* directory entry that points to an inode
+		* can only be set for files and not directories
+			* exception is special directory entries 
+			  in a directory for the directory itself and 
+			  for its parent (. and ..)
+	* soft (symbolic) link
+		* directory entry that points to inode that provides 
+		  the name of another directory entry
+		* AKA symlink
+		* point to another file or directory by name rather 
+		  than by inode
+		* can cross file system boundries
+		* can create symlink from /dev/sda2 to /dev/sdb3
+			* hard links cannot do this
+	* when using relative names you will want the current working 
+	  directory to be the directory where link is created
+	* finding links
+		* $ find . -type l
+			* command will look for links in the current 
+			  directory
+	* $ ls -i
+		* this command will show inode that file/directory is 
+		  associated with
+		* hard link will show same inode value for link and target 
+		  but symlink will show different inode values
