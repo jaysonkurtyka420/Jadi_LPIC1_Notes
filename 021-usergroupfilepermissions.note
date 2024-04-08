@@ -1,0 +1,106 @@
+## Manage file permissions and ownership
+# Users and Groups
+	* linux system(s) can have many users and groups	
+	* you can login as on user and su command into another group
+	* $ whoami
+		* command will list current user name
+	* $ groups
+		* will show list of groups on system
+	* $ id
+		* will show user and group information
+	* uid=0 gid=0 groups=0 is only for root
+	* /etc/passwd and /etc/group
+		* files that contain user/group ids/info
+# File ownership & permissions
+	* linux uses 3 layers of access/permission
+		* user
+		* group
+		* other
+	* $ ls -l ...
+		* command will show permissions on far left end
+	* permissions can be updated using octal codes or short codes
+	* octal codes
+		* r = 4, w = 2, x = 1
+		* rwx permissions will be 7
+		* r-x permissions will be 5
+		* rx- permissions will be 6
+	* short codes
+		* r = read, w = write, x = execute
+	* $ chmod +x /Documents/<file>
+		* this command will add execute permission for user, 
+		  group, and other to <file>
+	* $ chmod ug-w /Documents/<file>
+		* this command will remove write permission from user and 
+		  group
+	* $ chmod 755 /Documents/<file>
+		* this command will add rwx permission to owner, r-x 
+		  permission to group, r-x permission to other
+	* $ chmod -R o+r /tmp
+		* this command will add read permission to other for all 
+		  files in /tmp/
+# Changing owner and groups
+	* chown will change owner (and group) of file/directory
+	* chgrp will change only group of file/directory
+	* $ sudo chown root: <pathtofile>
+		* command will change owner and group of <pathtofile> 
+		  to root
+	* $ sudo chown root <pathoffile>
+		* command will only change owner of <pathtofile>
+	* $ sudo chown :root <pathoffile>
+		* command will only change group of <pathoffile>
+	* $ sudo chgrp root <pathoffile>
+		* command will update only group of <pathoffile> 
+	* $ sudo usermod -aG sudo jayson
+		* this command will add jayson to group sudo
+		* -a is for add
+		* -G is for group
+	* $ newgrp <group>
+		* this command will update default user group to <group>
+		* when files are created by user the default <group> 
+		  will whatever the <group> that was defined by newgrp is
+# Access modes
+	* suid (set user id) and sgid (set group id)
+		* special bits in linux that will allow permissions of 
+		  owner and group to be used regardless of which user 
+		  is actually doing work
+		* suid
+			* u+s,u-s - symbol
+			* 4000 - octal
+				* $ chmod 4755 <file>
+		* sgid
+			* g+s,g-s -  symbol
+			* 2000 - octal
+				* $ chmod 2755 <file>
+	* marked with s in execute permission
+		* -rwsr-xr-x is an example for user permissions
+		* -rwxr-sr-x is an example for group permissions
+	* $ chmod ug+s <file>
+		* command will update execution permission of user and 
+		  group to s
+	* $ chmod ug-s <file>
+		* command will update execution permission of user and 
+		  group back to x
+	* if there is capital S in execution permission for any file than 
+	  that means that the execution permission was not x to begin with
+		* chmod x for whichever permission is S and it will change 
+		  to small s and all is good
+	* sticky bit will not let anyone but owner delete files
+		* -rwxr-xr-xt is an example of sticky bit, shown as t
+		* $ chmod +t <file>
+			* this command will update execute permission for 
+			  other to t (replaces x)
+		* $ chmod -t <file>
+			* this command will remove sticky bit
+		* 1000 - octal
+		* $ chmod 1755 <file>
+# umask
+	* template that tells system what permissions SHOULD NOT BE 
+	  GIVEN to new files
+	* is 4 digits long
+		* ex: 0002
+	* $ umask
+		* this command will show current umask template
+	* $ umask 0002
+		* this command will set umask with octal values
+	* $ umask u+rw,g=,o=
+		* this command will set umask with symbolic value(s)
