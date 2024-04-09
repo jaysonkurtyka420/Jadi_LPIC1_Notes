@@ -1,0 +1,56 @@
+## Customize and use the shell environment
+# env, set, unset
+	* env command can set, remove, or display variables or 
+	  even run a command in a modified environment
+	* $ printenv
+		* this command will list all env variables and 
+		  their current values
+	* set command allows you to change the values of shell 
+	  options (variables) or to display the names and values 
+	  of shell variables
+		* $ set | less
+			* this command will show all shell variables 
+			  and values in less viewer
+	* unset command removes variable
+		* $ unset $NAME
+			* this command removes variable $NAME
+# export
+	* export command makes variables available in all shells, 
+	  not just the current shell
+	* commands are run in sub-shells so when variable is set it 
+	  is set in a sub-shell instead of current shell so again 
+	  the variable will not be available unless it is exported
+	* $ export NAME=jayson
+		* this command will confirm that NAME variable is 
+		  available in all shells
+# source and .
+	* source (or .) will run executable in current process instead 
+	  of sub-process
+	* used to load new/updated env variables or functions from 
+	  a script
+	* $ source <file>
+		* $ . <file>
+			* both of the above commands are the same
+# alias
+	* define alias of specific commands
+	* $ alias
+		* this command will show defined aliases
+	* $ alias testping="ping 8.8.8.8"
+		* will define new alias called testping
+		* when testping is run on command line it will run 
+		  the definition, in this case ping 8.8.8.8
+	* define aliases in .bashrc or equivalent
+# functions
+	* a defined (usually in a script file) subroutine that 
+	  implements a set of operations
+	* <functionname> () {
+		ls -ltrh
+		echo "this is good ls"
+	  }
+	* above is example of function that will execute each line
+	  of code
+# PS1
+	* command line prompt config
+	* can update PS1 in .bashrc (or equivalent)
+	* any mods to current shell will only work in current shell 
+	  unless it is exported
