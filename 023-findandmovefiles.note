@@ -1,0 +1,57 @@
+## Find system files and place files in the correct location
+#Filesystem Hierarchy Standard (FHS)
+	* document describing the linux/unix file hierarchy
+	* /usr is second level of the hierarchy
+		* contains shareable/readable only data
+	* /var filesystem contains log files, spool directories/files, 
+	  transient/temp files
+		* some portions of /var are not shareable but the 
+		  following are:
+			* /var/mail, /var/cache/man, /var/cache/fonts, 
+			  /var/spool/news
+# PATH
+	* list (in checking priority) of directories for system to 
+	  search for commands to run
+	* $ echo $PATH
+		* command will show all the directories to be searched
+	* $ export PATH=$PATH:<pathtodirectory>
+		* when entered in terminal
+			* will set the <pathtodirectory> in PATH until 
+			  the terminal session ends
+		* when added to ~.bashrc (or equivalent)
+			* will permanently (until removed or commented out) 
+			  set the <pathtodirectory> in PATH
+# which, type, whereis
+	* which command shows the first appearance of command 
+	  given in the PATH
+		* will bring up command that is executed
+	* $ which ls
+		* will bring up first appearance location
+	* $ which -a ls
+		* will bring up all appearance location(s)
+	* type command is more general than which
+		* used to understand and show bash keyword info
+	* whereis command shows man pages and source codes 
+	  of programs alongside their binary location
+# find
+	* $ find <searchtarget> -type x <searchphrase>
+		* -user & -group options allows to specify user & group
+		* -maxdepth option allows user to tell find how deep 
+		  to go into directories
+		* -nouser & -nogroup options allow to find files that 
+		  do not belong to any user/group
+# locate & updatedb
+	* locate command works very fast to find given keyword(s)
+	* $ locate <keyword(s)>
+		* will search system to get location paths to files/directories
+		  with keyword(s)
+	* locate command is fast because it searches a database that is 
+	  created with updatedb command
+	* updatedb command updates database to be searched by locate command
+		* part of the plocate on debian
+		* usually run with daily cron job
+		* config files
+			* /etc/updatedb.conf
+			* /etc/sysconfig/locate
+		* $ updatedb
+			* command will manually update locate search database

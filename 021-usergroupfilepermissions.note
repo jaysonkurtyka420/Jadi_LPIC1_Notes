@@ -32,6 +32,9 @@
 	* $ chmod ug-w /Documents/<file>
 		* this command will remove write permission from user and 
 		  group
+	* $ chmod g=rw,o= <file>
+		* this command will set group permissions to r and w and 
+		  remove permissions for other
 	* $ chmod 755 /Documents/<file>
 		* this command will add rwx permission to owner, r-x 
 		  permission to group, r-x permission to other
@@ -85,12 +88,13 @@
 		* chmod x for whichever permission is S and it will change 
 		  to small s and all is good
 	* sticky bit will not let anyone but owner delete files
-		* -rwxr-xr-xt is an example of sticky bit, shown as t
+		* -rwxr-xr-t is an example of sticky bit, shown as t
 		* $ chmod +t <file>
 			* this command will update execute permission for 
 			  other to t (replaces x)
 		* $ chmod -t <file>
-			* this command will remove sticky bit
+			* this command will remove sticky bit (if it is 
+			  set)
 		* 1000 - octal
 		* $ chmod 1755 <file>
 # umask
