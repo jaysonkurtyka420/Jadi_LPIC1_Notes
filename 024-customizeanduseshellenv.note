@@ -54,3 +54,52 @@
 	* can update PS1 in .bashrc (or equivalent)
 	* any mods to current shell will only work in current shell 
 	  unless it is exported
+# Different shell env
+	* login shell - after ssh or when logging into linux 
+	  machine
+	* interactive non-login shell - when opening a new 
+	  terminal (GUI env)
+	* spawned non-interactive shell - when a command is run a 
+	  sub-shell (spawned)  starts and runs the command(s) and 
+	  returns to originating shell - non-interactive
+# login shell
+	* user enters shell
+	* /etc/profile is run
+	* line in /etc/profile will run whatever is in 
+	  /etc/profile.d/
+		* loads global profile
+		* $PATH is initially set in /etc/profile
+	* then ONE of the following (in order) is attempted to be found 
+	  and loaded
+		* /home/<username>/.bash_profile
+		* /home/<username>/.bash_login
+		* /home/<username>/.profile
+	* then lastly /home/<username>/.bashrc is loaded
+		* most personal changes/configs will be written 
+		  in .bashrc
+		* such as new additions to $PATH, updated $PS1 code, 
+		  etc
+# interactive (non-login) shell
+	* this refers to terminal started with GUI or within another 
+	  terminal
+	* there are two files that handle this env
+		* /etc/bash.bashrc (or /etc/bashrc)
+		* /home/<username>/.bashrc
+# non-interactive shell
+	* does NOT use specific file in this case for configs, etc
+	* these shells reference BASH_ENV variable for file to 
+	  run
+	* most distros do not set the BASH_ENV variable by default
+		* add path to config file to run in BASH_ENV
+		* $ export BASH_ENV="<pathtoconfigfile>"
+# /etc/skel
+	* this directory contains files which will be used 
+	  as a starting template for each new user
+	* example is having .bash_logout, .bashrc, .profile files 
+	  in the skel directory so that each new user added will 
+	  have these files in their home directory
+	* add new files here that will be used for each new user
+# .bash_logout
+	* when LOGIN shell exits this file will clear the screen 
+	  as privacy measure
+	* found in /home/<user> directory
