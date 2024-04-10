@@ -1,0 +1,57 @@
+## Shell scripting, shebang, argument variables, run bash scripts
+	* && and ||
+		* && links commands together and will only run 
+		  consecutive commands if the preceding was true or 
+		  was successful
+		* $ cd /tmp && ls -ltrh
+			* ls -ltrh will only be run if
+			  cd /tmp was successful
+		* || links commands together and will only check 
+		  consecutive commands if the preceding was false or 
+		  was unsuccessful
+		* $ $TEMP=3 || $ADD=4
+			* $ADD=4 will only be checked if $TEMP not 
+			  equal to 3
+# Shell scripts
+	* combining shell commands in <file>.sh (or similar)
+	* # at beginning of line indicates a comment line
+	* #! called a shebang and needs to be at beginning of every 
+	  script
+		* #!/bin/bash
+			* shebang points to run script in bash
+			* bash can be replaced by any other shell
+			  such as sh, csh, ksh, etc....
+# variables
+	* $ NAME=jayson
+		* created NAME variable and assigned jayson as 
+		  value
+	* $ echo $NAME
+		* command will show value of $NAME variable
+		* in order to reference value of variable there 
+		  needs to be a $ that immediately proceeds the 
+		  variable name
+	* command line arguments are accessed using $1, $2, $n ...
+	* $ $#
+		* this command will show number of command 
+		  line arguments
+# command substitution
+	* $(command) or `command` (backticks)
+	* $ FILES=$(ls -ltrh)
+		* command will assign result of ls -ltrh to FILES
+		* again in order to reference FILES value it needs 
+		  to be $FILES
+# executing scripts
+	* script files need to be executable
+	* $ chmod +x <scriptfile>
+		* this command will make <scriptfile> executable
+	* $ bash <scriptfile>
+		* this command will run <scriptfile>
+	* $ ./<scriptfile>
+		* this command also will run <scriptfile>
+	* the $ bash <scriptfile> and $ ./<scriptfile> will 
+	  execute <scriptfile> in sub-shell (child shell) and 
+	  will return to parent shell when execution is complete
+	* $ exec <command>
+		* command will perform <command> in parent shell
+			* will not create child shell
+
