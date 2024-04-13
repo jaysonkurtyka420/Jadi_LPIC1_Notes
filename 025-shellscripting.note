@@ -54,4 +54,11 @@
 	* $ exec <command>
 		* command will perform <command> in parent shell
 			* will not create child shell
-
+# conditions
+	* kernel=$(uname -s) 
+	  if [ $kernel = "Linux" ]
+	  then
+		echo "This is a linux machine"
+	  else
+		echo "Not a linux machine"
+	  fi
