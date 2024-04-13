@@ -1,0 +1,84 @@
+## Graphical Desktops
+# Review graphical stack
+	5 User
+	4 Desktop Manager - KDE, GNOME, ...
+	  OR
+	4 Windows Manager - i3, awesome, ...
+	3 Display Manager - Xorg(X11), Wayland, ...
+	2 Kernel
+	1 Hardware
+# Desktop Environments
+	* in graphical mode
+		* X Display Manager Control Protocol (XDMCP)
+		  is login system
+		* GDM (for GNOME) SSDM (KDE) and more general 
+		  XDM are display managers for X11 and Wayland
+		* SSDM = simple desktop display manager
+		* GDM = GNOME Display Manager
+	* 3 major desktop managers
+		1 GNOME
+		2 KDE (Plasma)
+		3 xfce
+	* GNOME
+		* started 1999
+		* focused on productivity & accessibility
+		* used by most GNU/Linux distros
+		* gtk is default toolkit to build app GUIs
+	* KDE (Plasma)
+		* started 1996
+		* from v5 (2016) re-branded to KDE Plasma
+		* highly customizable
+		* used during Mars mission in NASA
+		* CERN uses KDE
+		* qt is default toolkit to build app GUIs
+	* xfce
+		* started in 1999
+		* lightweight but beautiful
+		* modular
+# remote connections to GUIs
+	* remote connections to GUIs to remote assist someone, 
+	  check status of computer from phone, etc
+	* X forwarding
+		* connect to SSH server and run GUI software 
+		  to display GUI part of the program to your 
+		  own machine
+		* be sure that X11forwarding is configed to yes 
+		  in /etc/ssh/sshd_config
+			* if this option is updated please 
+			  restart ssh.service (or sshd.service)
+		* $ ssh -X <serverip>.address.net
+	* VNC
+		* virtual network copmuter
+		* multiplatform and uses RFB protocol
+		* default port is 5900+[$DISPLAY number, mostly 1]
+		* is flexible and has clients on all platforms but 
+		  security is low
+	* Spice
+		* simple protocol for independent computing 
+		  environments
+		* started as closed source but RedHat opened it 
+		  to open source when purchased in 2008
+		* used to connect to KVM vms
+		* fast speeds and lower cpu usage
+		* one server implemented but can find 
+		  many clients, such as GNOME Boxes
+	* RDP
+		* remote desktop protocol
+		* using Xrdp you can listen to RDP connections
+		* default port is 3389
+		* encrypted by default
+		* many RDP clients to choose from
+# accessibility
+	* AccessX - helps with using keyboard/mouse
+	* Visitual Settings - helps with visual issues by 
+	  magnifying
+	* Assistive Technologies - text-to-speech and reads 
+	  screen
+	* these options are available in display managers in 
+	  the login screens and in major desktops
+	* settings located in Settings ~ Universal Access
+	* TTS
+		* Orca or Emacspeak can read dialog boxes
+		* Braille Display will help with visually 
+		  impaired
+	* Voic recognition
