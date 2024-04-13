@@ -1,2 +1,97 @@
 ## Understand linux graphical stack and install/configure X11
-#
+# X11 is older and Wayland is current standard
+# Intro
+	* below is list - lower level to higher level
+		5 User - jayson, testing10, etc
+		4 Desktop Manager - GNOME, KDE, xfce, ...
+		  OR
+		4 Window Manager - OpenBox, i3, dwm, awesome, ...
+		3 Display Server - Xorg(X11), Wayland, ...
+		2 Kernel - Linux, BSD, ...
+		1 Hardware - amd64, ARM, PowerPC, ...
+	* Desktop Manager
+		* Window Manager is part of Desktop Manger
+		* many other apps/utilities/...
+	* Window Manger
+		* solely designated to maintain windows in 
+		  GUI
+		* no other apps/utilities/...
+# X
+	* X window system is network transparent window 
+	  system that runs on wide range of computing and 
+	  graphical interfaces
+	* started with XFree86
+	* then X.org started own X Server called X11
+		* X11 is 11th version of X
+	* started in 1980s
+	* bloated and difficult to maintain
+	* succeeded by Wayland
+# /etc/X11/xorg.conf
+	* used to be the config file for X11
+	* X11 no longer needs config file
+	* to create config file
+		* $ Xorg -configure
+			* command creates xorg.conf.new file
+			* rename new config file to 
+			  xorg.conf and move to /etc/X11/
+	* config file contains Sections such as "Files", 
+	  "Modules" (drivers for graphical use), 
+	  "InputDevice" (keyboard, mouse, ...), 
+	  "Device" (video card, ...), "Screen" (monitor, ...)
+	* vesa is graphic card that is low-resource card so 
+	  use this driver for troubleshooting
+	* "ServerLayout" is setup of X11 server
+		* consists of Sections
+# /etc/X11/xorg.conf.d/
+	* directory where any other config file(s) for 
+	  updates are created/maintained
+	* these config file(s) take priority
+# ~/.xsession-errors
+	* located in /home/<user> directory
+	* logs X11 session errors 
+# xhost
+	* command that controls access to X Server
+	* $ xhost
+		* command gives access control status
+		* either enabled or disabled
+	* $ xhost +
+		* command disables access control
+		* opens for everyone
+	* $ xhost -
+		* command enables access control
+		* closed for everyone except user
+	* $ xhost +192.168.42.85
+		* command opens access control for specific 
+		  IP
+# DISPLAY
+	* $ echo $DISPLAY
+		* command will confirm which display number is 
+		  being used
+		* will be a number is is usually 0
+	* example - X11 server is 192.168.0.80, X11 remote is 
+	  192.168.0.85
+	* while using X11 remove 192.168.0.85
+		* $ export DISPLAY=192.168.0.80:0
+			* this command will send DISPLAY of 
+			  192.168.0.85 to 192.168.0.80:0
+			* the :0 is DISPLAY 0 
+	* now any activity on X11 remote will show on X11 
+	  server
+	* note that X11 server 192.168.0.80 can also interact 
+	  with X11 remote 192.168.0.85 as well
+	* most new distros do not allow this for security 
+	  reasons
+# xauth
+	* program used to edit and display auth info used 
+	  in connecting to the X server
+	* xhost uses IP addresses
+	* xauth uses 'secret' token
+	* .XAuthority file is created in /home/<user>/ directory
+		* this file contains token
+	* if X is not working properly rm .XAuthority file and 
+	  restart X
+# Wayland
+	* current graphical standard server
+	* phasing out X11 though X11 is still installed to 
+	  be used as backup in the event Wayland fails
+	* more secure
