@@ -1,0 +1,111 @@
+## Automate system admin tasks by scheduling jobs
+# cron
+	* automates tasks
+	* formally used on systems operating 24x7 (never stops)
+	* $ crontab -l
+		* command will list any scheduled cron tasks
+	* $ crontab -e
+		* best way to edit/remove existing tasks and 
+		  add new tasks
+		* if the added task is invalid syntactically 
+		  there will be error message after exiting 
+		  back to terminal
+		* after initial task add there is a file 
+		  created in /var/spool/cron that is a copy 
+		  of crontab file
+# crontab explained
+	* format of file = * * * *   *       <command>
+	*                  M H d m dayofweek
+	* Minute (uses 0-59)
+		* *=every minute, */5=every 5 minutes, 
+		  18=on the 18th minute
+	* Hour (uses 0-23)
+		* 13=run at 1pm, */2=run every two hours
+	* day (uses 1-31)
+		* 1=run on 1st of month,
+		  1,15=run on 1st and 15th
+	* month (uses 1-12)
+		* 1=run in January,
+		  1,6=run in January and June
+	* day of week (uses 0-7, Sunday is 0 and 7)
+		* 3=run on Wednesday
+		  1,5=run on Monday and Friday
+	* command
+		* path to script
+		* be sure script is executable (chmod +x <scriptfile>)
+# system wide crontab file
+	* located in /etc
+	* is a system wide crontab file that can be updated 
+	  and used in place of $ crontab -e
+	* main difference is that there is user-name field
+		* permissions of user added to user-name field 
+		  will be used
+		* example, if root is user than the task will 
+		  be run with root permissions; if jayson is 
+		  user than task run will run with jayson's 
+		  permissions
+# hourly, daily, weekly, monthly crons
+	* located in /etc
+	* cron.hourly, cron.daily, cron.weekly, cron.monthly 
+	  are folders where scripts can be added to run
+	* check documentation for the exact time when the 
+	  scripts in each folder are to be run
+	* /etc/cron.allow is list of users that will be 
+	  able to run cron jobs
+		* cron.allow file must be created if not existing
+		* list only usernames in this file
+	* /etc/cron.deny is list of users that will NOT be 
+	  able to run cron jobs
+		* cron.deny file must be created
+		* list only usernames in this file
+# at
+	* command to run task 1 time
+	* $ at now + 3 min
+		* command will allow adding commands 
+		  to perform in 3 minutes
+		* at> echo hi
+		* when done entering CTRL-D will set task to 
+		  be run at previously specified time
+		* $ atq
+			* command will show queue of at jobs
+			* lists job numbers as well
+		* $ atrm <jobnumber>
+			* command removes <jobnumber>
+	* at is a service so status will need to be checked 
+	  to see if it is running
+		* $ systemctl status atd
+			* command will show status of service
+	* package name is at
+		* $ sudo apt install at
+# systemd & systemd-run
+	* when adding new time it will need to be enabled 
+	  (and probably started) with systemctl enable <newunit>
+		* if an existing unit was updated be sure 
+		  to run $ systemctl daemon-reload
+	* runs jobs using timer units (.timer extension)
+		* the timer unit only schedules when to run so 
+		  the timer unit will need unit with same name but 
+		  different extension to run
+		* by default system looks for service with 
+		  same name but different extension
+		* example: raid-check.timer needs to have 
+		  corresponding unit raid-check.service
+	* $ find /etc/systemd -name '*timer'
+		* command will show all timers in /etc/systemd
+	* /etc/systemd/system/timers.target.wants/ is where 
+	  to add new timer units
+		* look in directory and use existing timer 
+		  as an example
+	* 2 types of timers
+		* readl-time that works with OnCalendar=
+		* monotonic that works with configs
+			* OnActiveSec - time after unit activation
+			* more listed on linux1st notes
+	* $ systemctl list-timers
+		* command will list all scheduled jobs
+	* journalctl can be used to show output of timers
+		* use --user to narrow results to user and not 
+		  systemwide
+	* system-run command can start transient service or 
+	  scope and run specific commands to it
+		* example in linux1st notes
