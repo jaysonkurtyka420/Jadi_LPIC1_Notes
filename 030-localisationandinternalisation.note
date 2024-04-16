@@ -1,0 +1,80 @@
+### Localisation and Internationalisation
+#timezone
+	* $ date
+		* command will show current date and time
+	* $ date +'%Y'
+		* commnad will show current year
+	* $ touch backup_`date +'%y%m%d_%H%M'`
+		* this command will create new file named
+		  backup_<year><month><day>_<hour><minute>
+		* make note of the backticks encompassing 
+		  the date formatting
+	* $ cal
+		* command will show calendar of current month
+# timedatectl
+	* $ timedatectl
+		* command will show verbose time information
+		* allows updating of timezone, etc
+	* $ timedatectl set-timezone "America/Edmonton"
+		* command will update timezone to Edmonton time
+	* $ timedatectl set-time 16:20:00
+		* command to manually set time
+		* rarely used for obvious reasons
+	* systemd-timesync.service can be stopped so time 
+	  does not autosync
+	* $ timedatectl set-time "2024-04-20 16:20:00"
+		* command will set date and time
+	* $ tzselect
+		* command to update timezone
+	* $ tzconfig
+		* older command to update timezone info
+	* TZ='<timezonename>'; export TZ
+		* add this line to .profile in ~/ to make 
+		  this change permanent
+	* $ env TZ='Asia/Tokyo' date
+		* this command will give date/time in specified 
+		  timezone
+# /usr/share/zoneinfo & /etc/localtime
+	* this directory contains all timezone info in 
+	  binary files
+	* /etc/localtime is a file that is a symlink to one 
+	  of the files in the /usr/share/zoneinfo
+		* if timezone needs to be updated we need 
+		  to create new symlink for /etc/localtime that 
+		  points to file in /usr/share/zoneinfo
+		* $ ll /etc/localtime
+			* command will show which file is linked 
+			  to /etc/localtime
+		* $ unlink /etc/localtime
+			* command breaks current link
+		* $ ln -s /usr/share/zoneinfo/<path> /etc/localtime
+			* this command creates new link
+# configuraing languages
+	* $ local
+		* command shows selected system language
+	* /etc/local.conf contains LANG variable
+	* LC_ALL variable in results of local command will 
+	  override all the other LC_ variables
+		* $ export LC_ALL=fa_IR.UTF-8
+			* command will update LC_ALL variable
+		* $ unset LC_ALL
+			* command will unset LC_ALL variable
+	* LANG=C
+		* used to confirm that programs/scripts 
+		  make system results coherent in all env
+		* $ export LANG=C
+			* command to set LANG
+# character encoding
+	* acsii - 7bit
+	* ISO-8859 - more bits for other languages but still 
+	  used ascii
+	* UTP-8
+		* unicode transformation format
+		* newest encoding method
+		* contains all ascii/ISO-8859 plus fun characters
+		* uses 8bit code units
+# iconv
+	* iconv command will confirm coding
+	* $ iconv -f WINDOWS-1258 -t UTF-8 /tmp/myfile.txt
+		* this command will confirm WIN.. to UTF.. 
+		  for specified file
