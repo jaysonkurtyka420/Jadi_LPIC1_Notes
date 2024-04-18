@@ -1,0 +1,78 @@
+## Maintain System Time
+	* battery-powered mobo section keeps time so OS uses 
+	  this time as time as a basis to establish its 
+	  own system time
+	* linux system time is based on UTC and OS will use 
+	  parameters for local location to set correct time
+	* $ hwclock
+		* command will show hardware clock time
+	* note that even if hwclock is UTC it will show local
+	  time based on system parameters
+	* $ cat /etc/adjtime
+		* command will confirm if hwclock is based
+		  on UTC or not; UTC will show up after running 
+		  that commmand
+		* also shows the current seconds from 1970/01/01
+		  to current time - current seconds are in the 
+		  billions now
+	* $ hwclock --localtime --set --date="04/20/2024 14:20:00"
+		* command will set hwclock to this time
+	* $ hwclock -u -w
+		* this command resets hwclock to current(real)  time
+# time zones
+	* /etc/timezone is file representing your timezone
+		* this file not used as much as /etc/localtime
+	* /etc/localtime is binary file describing your 
+	  timezone info to the system
+		* the localtime file is usually a symlink to 
+		  the correct file in /etc/share/zoneinfo
+# NTP
+	* network time protocol
+	* uses servers to confirm accurate time shown by 
+	  best atomic clocks
+	* pool.ntp.org is popular server (web is ntppool.org)
+		* this site is pool of ntp servers
+		* requests through this site are redirected 
+	* ntpdate
+		* most straightforward command to set the 
+		  systemclock
+		* $ sudo ntpdate pool.ntp.org
+			* command to compare your system time 
+			  against pool.ntp.org server(s)
+			* will list the difference in time 
+			* $ sudo hwclock -w
+				* command will update hardware 
+				  time
+	* ntpd - linux service to keep system time same as 
+	  ntp server(s)
+		* $ sudo apt install ntp
+		* $ sudo systemctl start ntp
+		* if ntpd service is running then you 
+		  CANNOT use ntpdate
+		* /etc/ntp.conf is config file
+	* ntpq - command queries the ntp service
+		* -p switch (print) shows the pool being 
+		  used to sync clock
+		* a '*' in output means that ntp is using this 
+		  server as the main reference
+		* a '+' means that the server is good
+		* a '-' means out of range server - will be 
+		  neglected
+*** Note that NTP is not really used, chrony is more current
+	* chrony - another implementation of ntp protocol
+		* better tool to sync than ntp
+		* default ntp client in RedHat 8, SUSE 15
+		* $ systemctl status chrony
+	* /etc/chrony/chrony.conf is config file
+	* chronyc
+		* cli command to control chrony service
+		* monitors chronyd performance and to 
+		  change various operating parameters
+		* if commmand is passed to chronyc the results 
+		  will be shown otherwise you will get a command 
+		  to issue your commands
+		* $ chronyc tracking
+		* $ chronyc
+			* command will bring up chrony input
+			* activity will show activity
+			* sources will show sources
