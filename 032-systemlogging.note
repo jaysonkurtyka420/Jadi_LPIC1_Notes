@@ -1,0 +1,112 @@
+## System Logging
+# syslog, syslog-ng, rsyslog
+	* syslog and syslog-ng are were og log managers but 
+	  are rarely used now
+	* rsyslog is new manager but becoming replaced by 
+	  systemd
+# /dev/log
+	* locations where logs are sent
+	* /dev/kmsg is another device location for logs
+# dmesg
+	* info saved during bootup before disk(s) are ready 
+	* log data is saved by kernel ring buffer in kernel
+	* $ dmesg
+		* command shows you these boot up logs
+# logrotate
+	* $ logrotate
+		* command to clean up logs to keep 
+		  disk from getting full
+	* /etc/logrotate.conf if config file for logrotate
+	* some logs are created in /etc/logrotate.d/
+	* runs using crons on daily basis based on a 
+	  /etc/cron.daily/logrotate file
+# /var/log
+	* most logs viewable in /var/log/
+	* $ ls -ltrh /var/log
+		* this command is used to show any new logs 
+		  that may help with recent issue
+	* auth.log, syslog, debug, kern.log, messages,
+	  utmp & wtmp, btmp, faillog, lastlog
+	* some service logs may create files here as well
+	* $ last
+		* command will show log of successful logins
+# rsyslog
+	* newer generation of syslogs
+	* /etc/rsyslog.conf is main config file
+		* /etc/rsyslog.d/ is also read
+	* 3 main sections
+		* MODULES
+		* GLOBAL DIRECTIVES
+		* RULES
+	* MODULES
+		* modules used for logging
+	* GLOBAL DIRECTIVES
+		* sets default permissions for all log files
+		* sets where to place spool and state files
+		  (working directory)
+		* states to check /etc/rsyslog.d/ to read 
+		  any config files there
+	* RULES
+		* facility and priority
+		* facility is application sending log
+		* priority is type of log
+			* cron.info
+			* crong is app, info is type
+		* facilities include:
+			* kern, user, mail, daemon, cron, auth, 
+			  ntp, security, console, syslog
+		* priorities include:
+			* emerg/panic, alert, crit, err/error, 
+			  warn/warning, notice, info, debug
+		* actions can be filename, username or ip addy
+			* filename will be like cron.log, 
+			  kern.log, etc...
+	* klogd
+		* binary that logs the kern category is a 
+		  standalong daemon
+		* uses same config files
+		* allows logging of kernel crashes
+	* logger
+		* $ logger <yourlogtext>
+			* command sends your own log data that 
+			  is typed to be logged, usually in 
+			  /var/log/syslog file (configured in 
+			  rsyslog.conf)
+# jourald
+	* journald is logging service for systemd
+	* journalctl is command used to read/query binary 
+	  log files
+		* part of systemd-journald utility
+	* systemd-jounald is a service and start/stop/... from 
+	  systemctl can be used to check its status
+	* journalctl will list all the data in journal
+	* /etc/systemd/journald.conf is config file
+	* see Jadi's notes for examples of switches and 
+	  arguments to be used as there are a lot
+	* $ journalctl <pathtoprogram>
+		* this command will show logs for specific 
+		  program
+# systemd-cat
+	* $ echo "<text>" | systemd-cat
+		* command will place <text> in journald logs
+# managing storage
+	* systemd can keep logs in memory or write them to 
+	  disk or drop all the logs
+	* /etc/systemd/journald.conf is config file that 
+	  confirms how to manage how to handle logs
+		* default behaviour:
+		* system checks /var/log/journal and if 
+		  exists the logs will be saved in directory 
+		  there
+		* if /var/log/journal is not there the logs 
+		  will be saved at memory at /run/log/journal 
+		  and in the directory decided by 
+		  /etc/machine-id
+# checking logs from a recovered system
+	* logs in /var/log/journal/(machine-id)
+	* when using live usb upon rebooting the crash system 
+	  you can move these files from /var/log/journal/(machine-id)
+	* example is machine id is 11111 and you've mounted 
+	  the /var/... from crashed machine to /mnt/var of live
+	  usb then use the following command to view the logs
+		* $ journalctl -D=/mnt/var/log/journal/1111
