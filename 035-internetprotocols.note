@@ -1,0 +1,119 @@
+## Fundamentals of internet protocols
+# TCP/IP
+	* trasfer control protocol/internet protocol
+	* powers most communications on internet and many 
+	  other networks
+	* includes UDP, ICMP, DNS, and more
+# IP
+	* internet protocol - points to host on internet
+	* allows communications to go from device to device
+	* should be unique so network will know where each 
+	  data packet is intended to go
+	* 2 versions: 4 & 6
+# IPv4
+	* consists of a.b.c.d where letters can be any number 
+	between 0-255
+	* examples: 1.1.1.1, 8.8.8.8, 192.168.0.420
+	* each part is called Octet because it is an 8-bit 
+	number
+# private IPs
+	* ip addys should be unique on a network
+	* IANA - internet assigned numbers authority
+	* ip addresses are grouped in 3 classes
+		* A - 1-126 octet - range 1.0.0.0 to 
+		126.255.255.255
+		* B - 128-191 octet - range 128.0.0.0 to
+		191.255.255.255
+		* C - 192-223 octet - range 192.0.0.0 to 
+		223.255.255.255
+	* private ip ranges are ranges with ip addresses that
+	anyone can assign them to any device they want as 
+	long as the device is not on the internet
+		* 192.168.0-255.0-255
+		* 172.16-31.0-255.0-255
+		* 10.0-255.0-255.0-255
+# subnetting and netmask
+	* common subnet mask is 255.255.255.0
+	* example: if ip is 192.168.0.1 and subnet is 
+	255.255.255.0 then that means that any ip in the 
+	range 192.168.0.0-255 is on the same network so 
+	192.168.0.23 and 192.168.0.69 can talk to each other 
+	because they are on same network but 192.168.1.1 cannot because it is out of network due to subnet mask
+	* CIDR - classless inter-domain routing
+	* CIDR is shown by a /24 on an ip address
+		* the 24 is determined as the first 3 octets of 
+		ip address stays the same, i.e. 192.168.0.1/24 
+		says that the 192.168.0 will not change but the 
+		last octet can be 0-255.  if the CIDR was /16 then 
+		the 192.168 of network ip stays the same but 
+		any ip address of 192.168.0-255.0-255 is on the same 
+		network
+# network and broadcast address
+	* network address is a logical AND between ip address 
+	and the network mask
+	* broadcast address is the network address with logical 
+	OR when all the host bits are changed to 1
+	* example: 192.168.4.12/24 (255.255.255.0) then our 
+	network address is 192.168.4.0 and broadcast address 
+	is 192.168.4.255
+# binary to decimal conversion
+	* take given number and begin subtracting the appropriate 
+	binary values from the 8 bit columns so we subtract to 
+	zero
+	* the 8 bit columns are 128 64 32 16 8 4 2 1
+	* to convert 202 to binary we do
+		* 202-128=74, 74-64=10, 10-8=2, 2-2=0
+		* binary is 11001010 because we used 128, 64, 8, 
+		and 2 to get to 0.  The other columns that were not used 
+		stay at 0
+# communication protocols
+	* TCP, UDP, ICMP
+	* TCP - transmission control protocol and designed 
+	to make sure that both parties are speaking to each 
+	other without losing information
+		* receiver will get anything sender sends, exactly 
+		as it is sent
+		* downloading files is done by TCP because we 
+		need to make sure that we are getting EVERYTHING
+	* UDP - user datagram protocol and is less reliable than 
+	TCP as the sender sends packets without communicating 
+	much from receiver and receiver listens for packets without 
+	negotiating the exact details from sender
+		* UDP is much faster than TCP but no guarantee 
+		that receiver receives 100% of data sent
+		* great for voice chat, television broadcast, etc...
+	* ICMP - internet control messaging protocol is 
+	specifically used to check connectivity of servers 
+	by the ping command.  First computer asks are you there 
+	and the second computer will answer yes I am here
+		* used for troubleshooting networks and not 
+		transmitting data
+# port
+	* ports are numbers that programs listen to to accept/disburse 
+	data
+	* port 80 is reserved for webservers so if there is 
+	connection to 5.1.2.3:80 then that confirms communication 
+	with webserver
+	* port 20 & 21 are reserved for ftp so same with there
+	* common ports 
+		* 20,21 FTP (one port for data, one port for control)
+		* 22 SSH
+		* 23 Telnet
+		* 25 SMTP (Simple Mail Transfer Protocol)
+		* 53 DNS (Domain Name Server)
+		* 80 HTTP
+		* 110 POP3
+		* 123 NTP
+		* 139 NetBIOS
+		* 143 IMAP
+		* 161,162 SNMP
+		* 389 LDAP
+		* 443 HTTPS
+		* 465 SMTPS
+		* 636 LDAPS
+		* 993 IMAPS
+		* 995 POP3S
+	* ports above 400 are secure protocol ports, such 
+	as HTTPS, IMAPS, ect...
+# /etc/services
+	* file shows ports and protocols associated with them
