@@ -1,0 +1,49 @@
+## Mail Transfer Agent (MTA) basics
+# MTA(s)
+	* Unix/GNU Linux relied on SMTP
+	  (simple mail transfer protocol that has default 
+	  port of 25) for communications in-house
+	* sendmail is MTA that is huge, old, and difficult 
+	  to configure so very few systems use it as their 
+	  default MTA
+	* exim is MTA that is general and flexible with 
+	  extensive facilities for checking incoming email
+	  and has rich features with ACLs, authentication and 
+	  so on
+	* postfix is alternative MTA to sendmail and is 
+	  much easier to configure.  postfix supports multiple 
+	  domains, encryption.  Most current distros use 
+	  postfix as default MTA
+		* also should install mailx (or bsd-mailx) when 
+		  installing postfix
+# sendmail emulation layer
+	* modern MTAs contain a sendmail emulation layer 
+	  to try and comply with it to keep themselves 
+	  backward compatible with sendmail
+	* this allows modern MTAs to allow sendmail commands 
+	  in place of installed MTAs essentially acting as 
+	  sendmail
+# aliases
+	* /etc/aliases is where any existing aliases are stored 
+	  and updated and also where new aliases are created
+		* example: if email comes in for webmaster then 
+		  this /etc/aliases file is referenced to confirm 
+		  where/who the webmaster email should be 
+		  received by
+		* aliases file routes emails to correct recipient
+# writing mail
+	* $ mail
+		* this command will list any emails for current user
+	* $ mail <user>
+		* this comment will start mail to user
+		* enter Subject and hit enter
+		* write the message and hit CTRL-D on an empty 
+		  line
+		* add user(s) to Cc: if needed and hit enter
+		* done!
+		* & q
+			* this command will quit mail utility
+# mailq
+	* $ mailq
+		* this command lists the mail queue
+		* mail that has not yet been delivered
