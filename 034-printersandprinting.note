@@ -1,0 +1,31 @@
+## Manage printers and printing
+# CUPS
+	* common unix printing system
+	* installs many packages and suggests many other 
+	  packages for installation, mostly fonts, etc...
+	* /etc/cups is directory where config files located
+	* cupsd.conf is main config file
+	* open webbrowser and enter "localhost:631" for url 
+	  and this will open CUPS web interface
+	* /etc/cups/printers.conf stores printer data
+		* web interface edits this file
+	* /etc/cups/ppd is directory for Postscript Printer 
+	  Description (PPD) files that help printers run 
+	  properly
+	* /var/logs/cups/ is directory where CUPS logs are 
+	  stored
+# CUPS web interface
+	* /etc/cups/cupsd.conf is config file where you 
+	  enable the web interface
+# legacy tools
+	* CUPS supports all the legacy command line programs
+	* may need to install cups-bsd package for legacy 
+	  commands
+	* lpr, lpq, lprm, lpc are old legacy commands
+		* lpr - print file
+		* lpq - show print queue
+		* lprm - remove a file from queue
+		* lpc - printer control/troubleshooting
+			* $ sudo lpc status
+				* command will show all printers
+				  status
