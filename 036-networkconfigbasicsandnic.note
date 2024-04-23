@@ -1,0 +1,114 @@
+## Persistent network configuration
+# network interface
+	* NIC - network interface card is physical hardware 
+	in your computer that can be a chip+antenna or 
+	ethernet card
+	* older times ethernet is shown as eth0, eth1, eth2, etc and 
+	these names are determined by kernel
+	* recent the nics are called wlan0, eno1, ens1, 
+	enp3s2 and names are still given by kernel
+	* wireless - wlan0, ethernet - eno1, PCI - ens,
+	bus - enp3s2
+# ip command
+	* ifconfig is part of net-utils package and is 
+	used to show the network interfaces currently 
+	recoginzed on system
+		* ip addresses are called inet addresses
+	* loopback inet(ip) allows system to speak to itself
+	* $ ip link show
+		* command will show network interfaces
+	* $ ifconfig -a
+		* command will show network interfaces
+	* $ ip addr
+		* command will show network interfaces
+	* $ ip addr add <ip> dev <interface>
+		* command will add temp ip
+	* $ ip addr show <inteface>
+		* command will show interface info
+	* $ ip addr del <ip> dev <interface> 
+		* command will delete ip
+	* $ ip link set <interface> up
+		* command will bring interface up
+	* $ ip route show
+		* command will display existing ip routing
+	* $ ip route add default via <ip>
+		* command will add default gateway
+	* regarding the above that all changes will be lost 
+	when NetworkManger restarts so if permanent changes are 
+	needed than update the config files or NetworkManager
+	interfaces
+# configuring NICs
+	* $ ifconfig <interface> <ipaddress>
+		* this command will give <interface> the 
+		<ipaddress> given
+	* $ ifconfig <interface> netmask <netmaskip>
+		* this command will give <interface> the netmask
+		<netmaskip> given
+	* $ ifconfig <interface> <ipaddress> netmask <netmaskip>
+		* this command will set the interface to ip address 
+		and netmask given
+	* $ ifconfig <interface> down
+		* this command will bring down interface (disconnected)
+	* $ ifconfig <interface> up
+		* brings interface up (back in service)
+		* $ ifup <inteface>
+			* command will chekc if interface is in 
+			service
+	* predefined configs are located:
+		* Debian-based: /etc/network/interfaces
+		* Redhat-based: /etc/sysconfig/network-scripts/
+# NetworkManger & nmcli
+	* $ systemctl status network-manager
+		* command will show status of this service
+	* nmcli - network manager command line interface
+		* talks to network manager
+	* $ nmcli
+		* command shows device info
+	* $ nmcli device show
+		* verbose info on network devices
+	* $ nmcli connection show
+		* verbose info on network connections
+	* $ nmcli --help
+		* good help section for more commands
+	* $ nmcli device wifi connect <wifi> password <wifipassword>
+		* this command will manual connect to specific 
+		wifi
+# hostname
+	* variable that knows which ip address is associated 
+	with it
+	* /etc/hostname has host info
+	* $ hostname set-hostname <newhostname>
+		* command will update hostname for current 
+		system
+	* $ hostname <newhostname>
+		* command will TEMP update hostname (transient name)
+	* --pretty option allows more descriptive label for 
+	hostname (pretty name)
+	* /etc/hosts
+		* file where ips can be given names in order 
+		to reference specific ip by name instead of ip
+# DNS configurations
+	* dns - domain name service
+	* /etc/resolv.conf is config file with info
+		* nameserver is the ip for DNS server
+	* domain configuration sets local domain name so 
+	machines on that domain will be able to use shorter 
+	names instead of full names
+# nsswitch
+	* /etc/nsswitch.conf is file where priority of 
+	where system should check to resolve names/ips
+	* files in that config refers to the system 
+	configuration files
+	* password, group, etc are set here as well
+# systemd-networkd
+	* service that manages networks, including detecting and 
+	configuring network devices and creating virtual 
+	devices
+	* alternative to Debian networking.service
+	* used for setups that rely on static configs, such 
+	as servers and routers or always-on VPN tunnels
+	* to use, start/enable systemd-networkd.service
+	* to switch network manager to systemd-networkd on server, 
+	disable Network Manager and enable systemd-networkd.service
+	and then enable/start systemd-resolved service which 
+	is used for network resolution 
