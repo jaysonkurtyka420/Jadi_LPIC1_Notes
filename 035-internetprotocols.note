@@ -75,8 +75,8 @@
 		as it is sent
 		* downloading files is done by TCP because we 
 		need to make sure that we are getting EVERYTHING
-	* UDP - user datagram protocol and is less reliable than 
-	TCP as the sender sends packets without communicating 
+	* UDP - user datagram protocol and is less reliable 
+	than TCP as the sender sends packets without communicating 
 	much from receiver and receiver listens for packets without 
 	negotiating the exact details from sender
 		* UDP is much faster than TCP but no guarantee 
