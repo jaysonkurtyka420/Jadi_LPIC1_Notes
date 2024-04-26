@@ -1,0 +1,34 @@
+## Basic network trouble shooting
+# ping & ping6
+	* sends icmp packet to destination and if answer 
+	is returned it will have good data to review
+	* $ ping <ip4orname> -c <#oftimestoping>
+		* will ping ip4 or name the number of times 
+		specified
+	* $ ping <ip6> -c <#oftimestoping>
+		* will ping ip6 the number of times specified
+# tracepath & traceroute
+	* pings all the servers between you and destination
+	* $ traceroute <ip>
+		* will return data on all servers on route
+		* if there are * * * in results that means 
+		the server did not show data by blocking 
+		icmp traffic
+	* $ tracepath <ip>
+		* very similar to traceroute
+# ss & netstat
+	* netstat is older than ss
+	* used to check routing table
+	* ss command can be used to confirm which port is 
+	in listening mode
+	* -n is for numeric, -a all ports, -r is for routes
+	* $ ss -tulpn
+		* shows ports that are listing on tcp and udp
+# netcat
+	* shows arbitrary tcp and udp connections and listens
+	* can open tcp connections, send udp packets, do port 
+	scanning, deals with both ip4 and ip6
+# dig
+	* DNS lookup tool
+	* if issue with domain name dig will check how it is 
+	being resolved and by whom

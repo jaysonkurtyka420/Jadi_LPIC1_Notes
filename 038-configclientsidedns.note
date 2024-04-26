@@ -1,0 +1,52 @@
+## Configure client side DNS
+# DNS
+	* domain name system
+	* translates domain names to ip addresses
+	* dns server used when you ping server using 
+	its domain name
+	* /etc/resolv.conf is config file
+# host command
+	* $ host <domainname>
+		* this command will list out ip address 
+		associated with given <domainname> for 
+		ip4 and ip6 and also mail handling info
+		* ip4 are A records, ip6 are AAAA records and 
+		mail are mx records
+# dig command
+	* command used to built to query dns servers
+	* dig <domainname>
+		* returns dns query info for given 
+		<domainname>
+	* dig @<dnsipaddress> <domainname>
+		* returns dns query info for given <domainname>
+		using given <dnsipaddress>
+# /etc/hosts
+	* combo of ip address and name
+	* used to associate ip address and names for 
+	purpose of static name resolution and to map
+	ip addresses to given names
+	* NOTE: this hosts file is checked BEFORE dns
+	servers so if there are any names/ip addresses
+	in this host file it may affect the results of 
+	dig command, etc...
+	* names given can be used for ssh as well
+		* example: you can add server ip address to 
+		this file and then when using ssh you can 
+		do $ ssh <nameinhostsfile>
+		and ssh will translate name to ip address 
+		based on its entry in the hosts file
+# nsswitch
+	* name service switch
+	* /etc/nsswitch.conf file tells the system about 
+	priority of lookups, password checks, etc...
+# getent
+	* get entry
+	* command is a utility to get entries from 
+	name service switch libraries
+	* $ getent hosts
+		* command will show config of hosts
+# systemd-resolved
+	* systemd provided dns
+	* listens on 127.0.0.53 and will answer after 
+	consulting the /etc/systemd/resolv.conf or 
+	/etc/resolv.conf
