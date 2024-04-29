@@ -1,0 +1,53 @@
+## Setup host security
+# /etc/passwd
+	* file that shows users on system and shows whether 
+	they have password set or not, if so an x is shown 
+	in this file but the password is encrypted in the 
+	/etc/shadow file
+# /etc/nologin
+	* anything written in this file is shown to anyone 
+	attempting to login to system and login will fail
+	* root user will be able to login even in the 
+	presence of /etc/nologin
+	* /usr/sbin/nologin can be set as an users shell
+	* there is a nologin dummy shell and it can be set 
+	for any user to prevent them from being able to use
+	shell
+	* $ sudo usermod -s /usr/sbin/nologin <user>
+		* this will prevent <user> from using terminal 
+		by setting their default shell to nologin
+# super-servers
+	* aka tcp wrapper & service dispatchers
+	* type of daemon running mostly on unix-like systems 
+	for security and resource management reasons
+	* it listens for requests configured for and starts 
+	target services when needed to answer the requests
+	* adds layer of security to your communications and also 
+	lets some of the service to be inactive when we 
+	do not need them
+	* xinetd is tcp wrapper
+	* /etc/xinet.d is directory for xinetd
+	* also possible to configure systemd.socket as tcp 
+	wrapper for other services
+	* xinetd is replaced by systemd.socket units
+	* some services have socket unit alongside service 
+	unit and in these cases its enough to stop and disable 
+	the .service unit and start the .socket unit
+# /etc/hosts.allow & /etc/hosts.deny
+	* files used to allow or deny access to specific hosts
+# removing unused services
+	* use service (SysV) or systemctl (systemd) to check 
+	running services
+	* $ sudo chkconfig <service> off
+		* RHEL command to stop service
+	* $ sudo update-rc.d <service> remove
+	* $ systemctl list-units --state active --type service
+		* command will list active service units
+		for systemd systems
+	* SysV init scripts located in /etc/init.d and 
+	/etc/rcX.d folders
+		* /etc/inittab is config file for initializing 
+		a linux system using SysV to tell init system 
+		to do actions on the process on a specific 
+		run level
+
