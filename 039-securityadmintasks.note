@@ -1,0 +1,98 @@
+## Perform security admin tasks
+# su, sudo, & password management
+	* sudo and su allow user to perform tasks with 
+	root privileges
+	* $ sudo su -
+		* command will change user to root by asking 
+		for current users password instead of root
+		password
+	* - character will load env variable(s)
+	* /etc/sudoers is file that lists the 
+	privileges of sudoers and any other custom user groups
+		* file should be edited by the following:
+			* $ visudo
+			* visudo is special program that confirms 
+			that the changes made to sudoers file 
+			are appropriate
+# w & who commands
+	* $ w
+		* command will show who is logged in to 
+		server
+	* $ who
+		* very similar to w but a bit more info
+# last
+	* $ last
+		* command shows last logged in users
+	* $ last -f /var/log/btmp
+		* shows failed login attempts
+# passwd
+	* /etc/passwd
+		* file shows user info
+	* $ passwd <user>
+		* will change password for <user>
+		* leave <user> off to change password for 
+		current user
+	* $ passwd -S
+		* shows password status info
+# chage
+	* $ chage -l <user>
+		* will show password status and expiration
+		date, etc..
+	* $ sudo chage <user>
+		* will allow to edit password criteria and 
+		age, etc...
+# suid & guid
+	* suid - set user id
+	* suid when set on file will run with access level
+	of the owner of the file
+		* signified as an 's' in the execute position 
+		of permissions
+		* this allows regular users to run file as 
+		root or <owner>
+	* $ find <searcharea> -perm -u+s
+		* this command will search <searcharea> for 
+		files that have suid bit set
+	* guid - group user id
+		* acts same as suid, file will run with 
+		group permissions and not runners permissions
+		* signified as an 's' in the execute permission 
+		of group
+# ulimit
+	* set limits on users
+	* $ ulimit -a
+		* command shows user limits for files size, etc...
+	* part of the PAM system
+	* /etc/security/limits.conf is config file for 
+	limits
+# time
+	* command used to see how much time it takes for 
+	utility to open
+	* $ time firefox
+		* command will show how long it takes firefox 
+		to open
+# open ports
+	* ports are used to point utilities to allow 
+	utilities to communicate with other utilities or users
+	* hackers open ports to have a way to communicate 
+	with system(s)
+	* $ netstat -na
+		* command shows all connections
+		* pipe command into grep to narrow search
+	* $ netstat -tuna
+		* shows active ports
+	* $ ss -tuna
+		* same as netstat but has slightly different 
+		data
+# lsof
+	* $ lsof
+		* command lists all current open files
+# fuser
+	* fuser - file user
+	* shows who is using file
+	* $ sudo fuser 22/tcp -v
+		* command will show who is using port 22
+# nmap
+	* network security tool and port scanner
+	* $ nmap localhost
+		* shows open ports and which service is using 
+		it
