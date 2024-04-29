@@ -1,0 +1,65 @@
+## Securing data with encryption
+# ssh
+	* secure shell login to remote clients/hosts
+	* key pairs consist of private key and public key per 
+	user.  private key is kept on user host and public key 
+	is sent to remote client/host so that no password login to 
+	ssh client/host is needed and all other communications 
+	will be encrypted as well
+	* when sshing into ip for first time it will ask about 
+	validity of fingerprint
+	* $ ssh-keygen -R <ipaddress>
+		* will remove ip address from known hosts file
+# ssh keys
+	* public and private and are used for encrypting data 
+	sent back/forth through ssh
+	* $ ssh-keygen -t <algorithm>
+		* will create public/private key pair based 
+		on the <algorithm> given
+		* if -t not given the key pair will be created 
+		using default <algorithm>
+	* copy public key to server by opening 
+	~/.ssh/authorized_keys file and add it there
+		* be sure that /etc/ssh/sshd_config file 
+		has PubkeyAuthentification is yes
+	* $ ssh-copy-id <serveripaddress>
+		* will copy public key to <serveripaddress>
+# ssh-agent
+	* works like a key manager for your ssh keys by 
+	keeping private keys in memory and provides them 
+	when needed
+	* works well when keys are password protected to 
+	avoid entering password every time
+	* can also store private keys in other server memory
+	* $ ssh-agent /bin/bash
+		* command starts shell with ssh-agent
+	* $ ssh-add
+		* command will add private keys to memory 
+		of that specific shell
+# ssh-tunnels
+	* tunnels data between machines
+	* $ ssh -L 9000:hckrnews.com:80 root@<ipaddress>
+		* command will logs in as root to <ipaddress> 
+		and creates local tunnel (-L) on local 
+		machine through port 9000
+	* $ ssh -R 8000:localhost:80 root@<ipaddress>
+		* command creates connection to localhost:80 via
+		port 8000 on root@<ipaddress> system
+	* $ ssh -D 1800 <ipaddress>
+		* command creates tunnel from localhost that can 
+		be used to install software, etc...
+# x forwarding
+	* $ ssh -X <ipaddress>
+		* creates x fowarding on the <ipaddress> system
+		to all running programs on remote machine
+		* be sure X11Forwarding is yes in sshd_config 
+		file
+# encrypt and sign using gpg
+	* $ gpg --list-keys
+	* $ gpg --gen-key
+		* command will create public key and private key
+	* $ gpg --export <user> > <pathtosavelocation>
+		* add -a switch to make file ascii and not
+		binary
+	* $ gpg --import <key>
+		* imports public key of others
